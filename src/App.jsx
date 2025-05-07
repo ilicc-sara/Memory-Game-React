@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Counter from "./Counter";
+import ToDoList from "./ToDoList";
 
 function App() {
   const [showCounter, setShowCounter] = useState(false);
@@ -11,6 +12,7 @@ function App() {
         Show Counter
       </button>
       {showCounter && <Counter />}
+      <ToDoList />
     </>
   );
 }
