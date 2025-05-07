@@ -94,6 +94,14 @@ function App() {
       <h1>Rick and Morty memory game</h1>
 
       <div class="section">
+        <div class="btns-cont">
+          <button class="btn btn-current">
+            Current score: <span>0</span>
+          </button>{" "}
+          <button class="btn btn-high">
+            High score: <span>0</span>
+          </button>
+        </div>
         <div class="characters-cont">
           {characters.map((character, index) => (
             <Character
@@ -104,18 +112,6 @@ function App() {
               isClicked={character.isClicked}
             />
           ))}
-          {/* <article class="character"></article>
-          <article class="character"></article>
-          <article class="character"></article>
-          <article class="character"></article>
-          <article class="character"></article>
-          <article class="character"></article>
-          <article class="character"></article>
-          <article class="character"></article>
-          <article class="character"></article>
-          <article class="character"></article>
-          <article class="character"></article>
-          <article class="character"></article> */}
         </div>
       </div>
     </>

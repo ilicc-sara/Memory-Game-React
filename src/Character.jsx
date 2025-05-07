@@ -4,8 +4,10 @@ function Character(props) {
   const { image, name } = props;
   return (
     <article class="character">
-      <img class="character-img" src={image} alt="character-image" />
-      <h6>{name}</h6>
+      <span class="character-img-cont">
+        <img class="character-img" src={image} alt="character-image" />
+      </span>
+      <h5>{name}</h5>
     </article>
   );
 }
