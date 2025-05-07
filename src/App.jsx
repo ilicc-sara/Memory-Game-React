@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 // import Counter from "./Counter";
 // import ToDoList from "./ToDoList";
+import Character from "./Character.jsx";
 
 const info = [
   {
@@ -79,6 +80,7 @@ const info = [
 ];
 
 function App() {
+  const [characters, setCharacters] = useState(info);
   // const [showCounter, setShowCounter] = useState(false);
   return (
     <>
@@ -88,6 +90,34 @@ function App() {
       </button>
       {showCounter && <Counter />}
       <ToDoList /> */}
+
+      <h1>Rick and Morty memory game</h1>
+
+      <div class="section">
+        <div class="characters-cont">
+          {characters.map((character, index) => (
+            <Character
+              key={index}
+              name={character.name}
+              image={character.image}
+              id={character.id}
+              isClicked={character.isClicked}
+            />
+          ))}
+          {/* <article class="character"></article>
+          <article class="character"></article>
+          <article class="character"></article>
+          <article class="character"></article>
+          <article class="character"></article>
+          <article class="character"></article>
+          <article class="character"></article>
+          <article class="character"></article>
+          <article class="character"></article>
+          <article class="character"></article>
+          <article class="character"></article>
+          <article class="character"></article> */}
+        </div>
+      </div>
     </>
   );
 }
