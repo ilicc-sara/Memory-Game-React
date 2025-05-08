@@ -101,6 +101,33 @@ function App() {
     );
   }
 
+  function gameOver(id) {
+    characters.find((character) => character.id === id).isClicked === true
+      ? alert(
+          "Game Over!",
+          setCharacters((prev) => {
+            return prev.map((character) => {
+              return { ...character, isClicked: false };
+            });
+          })
+        )
+      : "";
+
+    // setCharacters((prev) => {
+    //   return prev.map((character) => {
+    //     return { ...character, isClicked: false };
+    //   });
+    // });
+  }
+
+  const shuffle = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
+
   return (
     <>
       {/* <h1>Our Counter</h1>
@@ -118,7 +145,7 @@ function App() {
             Current score: <span>{numberOfClicked}</span>
           </button>{" "}
           <button class="btn btn-high">
-            High score: <span>0</span>
+            High score: <span>{numberOfClicked}</span>
           </button>
         </div>
         <div class="characters-cont">
@@ -128,6 +155,8 @@ function App() {
               {...character}
               characters={characters}
               setCharacters={setCharacters}
+              gameOver={gameOver}
+              shuffle={shuffle}
             />
           ))}
         </div>
