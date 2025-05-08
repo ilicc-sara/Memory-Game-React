@@ -82,6 +82,25 @@ const info = [
 function App() {
   const [characters, setCharacters] = useState(info);
   // const [showCounter, setShowCounter] = useState(false);
+
+  function showNumberOfClicked() {
+    return characters.filter((character) => character.isClicked === true)
+      .length;
+  }
+
+  const numberOfClicked = showNumberOfClicked();
+
+  if (numberOfClicked === characters.length) {
+    alert(
+      "You Won!",
+      setCharacters((prev) => {
+        return prev.map((character) => {
+          return { ...character, isClicked: false };
+        });
+      })
+    );
+  }
+
   return (
     <>
       {/* <h1>Our Counter</h1>
@@ -96,7 +115,7 @@ function App() {
       <div class="section">
         <div class="btns-cont">
           <button class="btn btn-current">
-            Current score: <span>0</span>
+            Current score: <span>{numberOfClicked}</span>
           </button>{" "}
           <button class="btn btn-high">
             High score: <span>0</span>
@@ -106,10 +125,9 @@ function App() {
           {characters.map((character, index) => (
             <Character
               key={index}
-              name={character.name}
-              image={character.image}
-              id={character.id}
-              isClicked={character.isClicked}
+              {...character}
+              characters={characters}
+              setCharacters={setCharacters}
             />
           ))}
         </div>
