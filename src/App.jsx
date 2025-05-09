@@ -82,6 +82,9 @@ const info = [
 function App() {
   const [characters, setCharacters] = useState(info);
   // const [showCounter, setShowCounter] = useState(false);
+  const [highScore, setHighScore] = useState(0);
+
+  const [showModal, setShowModal] = useState(false);
 
   function showNumberOfClicked() {
     return characters.filter((character) => character.isClicked === true)
@@ -91,33 +94,13 @@ function App() {
   const numberOfClicked = showNumberOfClicked();
 
   if (numberOfClicked === characters.length) {
-    alert(
-      "You Won!",
-      setCharacters((prev) => {
-        return prev.map((character) => {
-          return { ...character, isClicked: false };
-        });
-      })
-    );
+    setShowModal(true);
   }
 
   function gameOver(id) {
     characters.find((character) => character.id === id).isClicked === true
-      ? alert(
-          "Game Over!",
-          setCharacters((prev) => {
-            return prev.map((character) => {
-              return { ...character, isClicked: false };
-            });
-          })
-        )
+      ? setShowModal(true)
       : "";
-
-    // setCharacters((prev) => {
-    //   return prev.map((character) => {
-    //     return { ...character, isClicked: false };
-    //   });
-    // });
   }
 
   const shuffle = (array) => {
@@ -127,6 +110,15 @@ function App() {
     }
     return array;
   };
+
+  // useEffect(() => {
+  //   console.log(numberOfClicked);
+  //   return () => {
+  //     numberOfClicked > highScore
+  //       ? (highScore = numberOfClicked)
+  //       : numberOfClicked;
+  //   };
+  // }, [numberOfClicked]);
 
   return (
     <>
@@ -161,6 +153,30 @@ function App() {
           ))}
         </div>
       </div>
+
+      {showModal && <div class="overlay"></div>}
+
+      {showModal && (
+        <div class="modal">
+          <h3>
+            {numberOfClicked === characters.length ? "You Won!" : "Game Over!"}
+          </h3>
+          <p>Your Score: {numberOfClicked}</p>
+          <button
+            class="play-again-btn"
+            onClick={() => {
+              setShowModal(false);
+              return setCharacters((prev) => {
+                return prev.map((character) => {
+                  return { ...character, isClicked: false };
+                });
+              });
+            }}
+          >
+            Play Again?
+          </button>
+        </div>
+      )}
     </>
   );
 }
