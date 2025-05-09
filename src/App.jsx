@@ -91,9 +91,9 @@ function App() {
       .length;
   }
 
-  const numberOfClicked = showNumberOfClicked();
+  const currentScore = showNumberOfClicked();
 
-  if (numberOfClicked === characters.length) {
+  if (currentScore === characters.length) {
     setShowModal(true);
   }
 
@@ -111,14 +111,14 @@ function App() {
     return array;
   };
 
-  // useEffect(() => {
-  //   console.log(numberOfClicked);
-  //   return () => {
-  //     numberOfClicked > highScore
-  //       ? (highScore = numberOfClicked)
-  //       : numberOfClicked;
-  //   };
-  // }, [numberOfClicked]);
+  useEffect(() => {
+    // console.log(currentScore);
+    return () => {
+      currentScore > highScore
+        ? setHighScore(currentScore)
+        : setHighScore(highScore);
+    };
+  }, [characters]);
 
   return (
     <>
@@ -134,10 +134,10 @@ function App() {
       <div class="section">
         <div class="btns-cont">
           <button class="btn btn-current">
-            Current score: <span>{numberOfClicked}</span>
+            Current score: <span>{currentScore}</span>
           </button>{" "}
           <button class="btn btn-high">
-            High score: <span>{numberOfClicked}</span>
+            High score: <span>{highScore}</span>
           </button>
         </div>
         <div class="characters-cont">
@@ -159,9 +159,9 @@ function App() {
       {showModal && (
         <div class="modal">
           <h3>
-            {numberOfClicked === characters.length ? "You Won!" : "Game Over!"}
+            {currentScore === characters.length ? "You Won!" : "Game Over!"}
           </h3>
-          <p>Your Score: {numberOfClicked}</p>
+          <p>Your Score: {currentScore}</p>
           <button
             class="play-again-btn"
             onClick={() => {
