@@ -81,10 +81,12 @@ const info = [
 
 function App() {
   const [characters, setCharacters] = useState(info);
-  // const [showCounter, setShowCounter] = useState(false);
+
   const [highScore, setHighScore] = useState(0);
 
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
+
+  const [isWrongGuess, setIsWrongGuess] = useState(false);
 
   function showNumberOfClicked() {
     return characters.filter((character) => character.isClicked === true)
@@ -93,15 +95,13 @@ function App() {
 
   const currentScore = showNumberOfClicked();
 
-  if (currentScore === characters.length) {
-    setShowModal(true);
-  }
+  // if (currentScore === characters.length) {
+  //   setShowModal(true);
+  // }
 
-  function gameOver(id) {
-    characters.find((character) => character.id === id).isClicked === true
-      ? setShowModal(true)
-      : "";
-  }
+  const isGameOver =
+    characters.every((character) => character.isClicked === true) ||
+    isWrongGuess;
 
   const shuffle = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -112,60 +112,24 @@ function App() {
   };
 
   useEffect(() => {
-    // console.log(currentScore);
     return () => {
-      currentScore > highScore
-        ? setHighScore(currentScore)
-        : setHighScore(highScore);
+      if (currentScore > highScore) setHighScore(currentScore);
     };
-  }, [characters]);
+  }, [currentScore]);
 
-  return (
-    <>
-      {/* <h1>Our Counter</h1>
-      <button onClick={() => setShowCounter((prev) => !prev)}>
-        Show Counter
-      </button>
-      {showCounter && <Counter />}
-      <ToDoList /> */}
-
-      <h1>Rick and Morty memory game</h1>
-
-      <div class="section">
-        <div class="btns-cont">
-          <button class="btn btn-current">
-            Current score: <span>{currentScore}</span>
-          </button>{" "}
-          <button class="btn btn-high">
-            High score: <span>{highScore}</span>
-          </button>
-        </div>
-        <div class="characters-cont">
-          {characters.map((character, index) => (
-            <Character
-              key={index}
-              {...character}
-              characters={characters}
-              setCharacters={setCharacters}
-              gameOver={gameOver}
-              shuffle={shuffle}
-            />
-          ))}
-        </div>
-      </div>
-
-      {showModal && <div class="overlay"></div>}
-
-      {showModal && (
-        <div class="modal">
+  if (isGameOver)
+    return (
+      (<div className="overlay"></div>),
+      (
+        <div className="modal">
           <h3>
             {currentScore === characters.length ? "You Won!" : "Game Over!"}
           </h3>
           <p>Your Score: {currentScore}</p>
           <button
-            class="play-again-btn"
+            className="play-again-btn"
             onClick={() => {
-              setShowModal(false);
+              setIsWrongGuess(false);
               return setCharacters((prev) => {
                 return prev.map((character) => {
                   return { ...character, isClicked: false };
@@ -176,7 +140,37 @@ function App() {
             Play Again?
           </button>
         </div>
-      )}
+      )
+    );
+
+  return (
+    <>
+      <h1>Rick and Morty memory game</h1>
+
+      <div className="section">
+        <div className="btns-cont">
+          <button className="btn btn-current">
+            Current score: <span>{currentScore}</span>
+          </button>{" "}
+          <button className="btn btn-high">
+            High score: <span>{highScore}</span>
+          </button>
+        </div>
+        <div className="characters-cont">
+          {characters.map((character, index) => (
+            <Character
+              key={index}
+              {...character}
+              characters={characters}
+              setCharacters={setCharacters}
+              shuffle={shuffle}
+              setIsWrongGuess={setIsWrongGuess}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* {showModal && <div className="overlay"></div>} */}
     </>
   );
 }

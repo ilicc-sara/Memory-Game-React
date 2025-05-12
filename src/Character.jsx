@@ -2,23 +2,23 @@ import React, { useState } from "react";
 
 function Character(props) {
   // prettier-ignore
-  const { image, name, id, setCharacters, characters, gameOver, shuffle } = props;
-  // naClick :
-  // proverim je li trenutna kartica kliknuta
-  //  ako jeste:
-  // proveri je li current score veci od high score
-  // ako jeste ostavi da je high score current score
-  //  game over u suprotnom stavi da je kliknuta i onda shuffle
+  const { image, name, id, setCharacters, characters, gameOver, shuffle, setIsWrongGuess } = props;
 
-  // osim toga imam useEffect koji se pokrece kad god se stanje kartica promeni
-  // on proverava score
+  function checkIfClicked(id) {
+    if (characters.find((character) => character.id === id).isClicked) {
+      setIsWrongGuess(true);
+    }
+  }
+
   return (
     <article
       class="character"
       onClick={() => {
+        checkIfClicked(id);
         setCharacters((prev) => {
-          shuffle(prev);
-          return prev.map((character) =>
+          const newCharacters = shuffle(prev);
+          // shuffle(prev);
+          return newCharacters.map((character) =>
             character.id === id ? { ...character, isClicked: true } : character
           );
         });
